@@ -1,25 +1,32 @@
-name: Submit to teacher system
+name: Student Intake
 
 on:
-  push:
-    branches: [main]
+  repository_dispatch:
+    types: [submission]
+
+permissions:
+  issues: write
 
 jobs:
-  notify:
+  create-issue:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Send submission event
+      - name: Create issue from student repo
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -L \
-            -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/TestOrgLund/Dashboard/dispatches \
-            -d '{
-              "event_type": "submission",
-              "client_payload": {
-                "repo": "${{ github.repository }}",
-                "student": "${{ github.actor }}"
-              }
-            }'
+
+          REPO="${{ github.event.client_payload.repo }}"
+          STUDENT="${{ github.event.client_payload.student }}"
+
+          TITLE="Inlämning: $REPO"
+
+          BODY="👤 Student: $STUDENT
+📦 Repo: https://github.com/$REPO"
+
+          ISSUE_URL=$(gh issue create \
+            --title "$TITLE" \
+            --body "$BODY")
+
+          echo "Created: $ISSUE_URL"
