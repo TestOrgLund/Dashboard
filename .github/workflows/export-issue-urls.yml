@@ -1,0 +1,53 @@
+name: Export Issue URLs
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get all repos
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Fetching repos..."
+
+          gh repo list TestOrgLund \
+            --limit 500 \
+            --json name \
+            --jq '.[].name' > repos.txt
+
+      - name: Collect issue URLs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+
+          echo "# Issue URLs" > issues.md
+          echo "" >> issues.md
+
+          while read REPO
+          do
+            echo "## $REPO" >> issues.md
+
+            gh issue list \
+              --repo TestOrgLund/$REPO \
+              --state all \
+              --json url,title,state \
+              --jq '.[] |
+                "- " + .url + " (" + .state + ")"' \
+              >> issues.md || true
+
+            echo "" >> issues.md
+
+          done < repos.txt
+
+      - name: Upload result
+        uses: actions/upload-artifact@v4
+        with:
+          name: issue-urls
+          path: issues.md
