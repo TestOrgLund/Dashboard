@@ -15,6 +15,22 @@
         "uppgift1"
       ],
 
+      "fields": {
+        "43130494": "2026-09-24",
+        "43130492": "High",
+        "43130493": "REPO_CREATED"
+      }
+    },
+    {
+      "title": "Uppgift45",
+      "body": "Skapa en klass.",
+      "type": "Feature",
+
+      "labels": [
+        "programmering1",
+        "uppgift2"
+      ],
+
       "milestone": {
         "title": "Moment1",
         "due": "2026-09-24"
