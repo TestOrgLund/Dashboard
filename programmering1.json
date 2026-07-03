@@ -6,9 +6,8 @@
 
   "issues": [
     {
-      "title": "Uppgift44",
+      "title": "Uppgift46",
       "body": "Skapa en klass.",
-      "type": "Feature",
 
       "labels": [
         "programmering1",
@@ -17,7 +16,6 @@
 
       "fields": {
         "43130494": "2026-09-24",
-        "43130492": "High",
         "43130493": "REPO_CREATED",
         "43735042": "TODAY",
         "43766569": "COMMITS"
