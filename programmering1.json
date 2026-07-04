@@ -28,7 +28,6 @@
       "title": "Uppgift45",
       "body": "Skapa en klass.",
       "type": "Feature",
-      "replace_labels": true,
 
       "labels": [
         "Uppgift4"
