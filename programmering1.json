@@ -13,8 +13,7 @@
       "labels": [
         "programmering1",
         "Test",
-        "Ny"
-        
+        "Uppgift5"
       ],
 
       "fields": {
@@ -28,9 +27,10 @@
       "title": "Uppgift45",
       "body": "Skapa en klass.",
       "type": "Feature",
+      "replace_labels": true,
 
       "labels": [
-        "Uppgift4"
+        "Uppgift5"
       ],
 
       "milestone": {
