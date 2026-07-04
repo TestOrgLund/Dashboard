@@ -1,37 +1,32 @@
-name: Generate Issue Dashboard
-
-on:
-  #schedule:
-    #- cron: "0 * * * *"   # varje timme
-  workflow_dispatch:
-
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v5
+
       - name: Generate Dashboard
         uses: ethomson/issue-dashboard@v1
         with:
           token: ${{ github.token }}
           config: |
-            title: "Programmering1 Dashboard"
+            title: "Issue Dashboard"
 
             output:
               format: markdown
-              filename: "dashboard.md"
+              filename: dashboard.md
 
             sections:
-              - title: "Open Issues (All Repos)"
+              - title: "All issues"
                 widgets:
                   - type: table
-                    title: "All open issues"
-                    issue_query: >
-                      org:TestOrgLund is:issue is:open sort:updated-desc
+                    issue_query: org:MY-ORG is:issue is:open
 
-              - title: "Bugs"
-                widgets:
-                  - type: number
-                    title: "Open bugs"
-                    issue_query: >
-                      org:TestOrgLund is:issue is:open label:bug
+      - name: Commit dashboard
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add dashboard.md
+          git commit -m "Update dashboard" || echo "No changes"
+          git push
