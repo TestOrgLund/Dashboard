@@ -28,6 +28,7 @@ jobs:
                 widgets:
                   - type: table
                     issue_query: org:TestOrgLund is:issue is:open
+                    limit: 100
 
       - name: Commit dashboard
         run: |
