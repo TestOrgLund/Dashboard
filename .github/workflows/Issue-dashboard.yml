@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Generate Dashboard
-        uses: ethomson/issue-dashboard@v1
+        uses: ethomson/issue-dashboard@v1.0.2
         with:
           token: ${{ secrets.ISSUE_TOKEN }}
           config: |
