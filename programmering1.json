@@ -12,7 +12,9 @@
 
       "labels": [
         "programmering1",
-        "Test-ny"
+        "Test",
+        "Ny"
+        
       ],
 
       "fields": {
@@ -29,7 +31,7 @@
       "replace_labels": true,
 
       "labels": [
-        "Uppgift3"
+        "Uppgift4"
       ],
 
       "milestone": {
