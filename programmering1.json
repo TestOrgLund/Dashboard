@@ -14,7 +14,8 @@
         "programmering1",
         "Test-ny",
         "Uppgift45",
-        "Ny"
+        "Ny",
+        "Test"
 
       ],
 
@@ -32,7 +33,7 @@
       "replace_labels": true,
 
       "labels": [
-        "Uppgift2"
+        "Uppgift3"
       ],
 
       "milestone": {
