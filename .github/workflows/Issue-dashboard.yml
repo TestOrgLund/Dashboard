@@ -1,0 +1,37 @@
+name: Generate Issue Dashboard
+
+on:
+  #schedule:
+    #- cron: "0 * * * *"   # varje timme
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Generate Dashboard
+        uses: ethomson/issue-dashboard@v1
+        with:
+          token: ${{ github.token }}
+          config: |
+            title: "Programmering1 Dashboard"
+
+            output:
+              format: markdown
+              filename: "dashboard.md"
+
+            sections:
+              - title: "Open Issues (All Repos)"
+                widgets:
+                  - type: table
+                    title: "All open issues"
+                    issue_query: >
+                      org:TestOrgLund is:issue is:open sort:updated-desc
+
+              - title: "Bugs"
+                widgets:
+                  - type: number
+                    title: "Open bugs"
+                    issue_query: >
+                      org:TestOrgLund is:issue is:open label:bug
