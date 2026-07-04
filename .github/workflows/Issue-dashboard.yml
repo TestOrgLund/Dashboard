@@ -15,7 +15,7 @@ jobs:
       - name: Generate Dashboard
         uses: ethomson/issue-dashboard@v1
         with:
-          token: ${{ github.token }}
+          token: ${{ secrets.ISSUE_TOKEN }}
           config: |
             title: "Issue Dashboard"
 
