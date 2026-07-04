@@ -29,11 +29,9 @@ jobs:
                   - type: table
                     issue_query: org:TestOrgLund is:issue is:open
                     fields:
-                    - title
-                    - number
-                    - labels
-                    - state
-                    - updated
+                      - title
+                      - state
+                      - labels
                     limit: 100
 
       - name: Commit dashboard
