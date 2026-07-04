@@ -1,9 +1,16 @@
+name: Generate Issue Dashboard
+
+on:
+  #schedule:
+    #- cron: "0 * * * *"   # varje timme
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
 
       - name: Generate Dashboard
         uses: ethomson/issue-dashboard@v1
