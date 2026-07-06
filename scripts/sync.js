@@ -151,6 +151,58 @@ async function searchIssues(labels) {
 }
 
 // ---------------------------
+// Get existing issues in ProjectV2 (DEDUP)
+// ---------------------------
+
+async function getProjectIssueIds(projectId) {
+
+  const query = `
+    query($projectId: ID!, $cursor: String) {
+
+      node(id: $projectId) {
+
+        ... on ProjectV2 {
+
+          items(first: 100, after: $cursor) {
+
+            nodes {
+
+              content {
+                ... on Issue {
+                  id
+                }
+              }
+
+            }
+
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+  `;
+
+  const items = await getAllPages(
+    query,
+    { projectId },
+    r => r.node.items
+  );
+
+  return new Set(
+    items
+      .map(i => i.content?.id)
+      .filter(Boolean)
+  );
+}
+
+// ---------------------------
 // Add issue to project
 // ---------------------------
 
@@ -191,18 +243,33 @@ async function syncProject(cfg, project) {
 
   log(`Found ${issues.length} issues`);
 
+  // 🔥 HAMTA EXISTING STATE
+  const existing = await getProjectIssueIds(project.id);
+
+  log(`Already in project: ${existing.size}`);
+
   let added = 0;
+  let skipped = 0;
 
   for (const issue of issues) {
+
+    // 🔥 DEDUPE CHECK
+    if (existing.has(issue.id)) {
+      skipped++;
+      continue;
+    }
 
     log(`➕ Adding ${issue.repository.nameWithOwner}#${issue.number}`);
 
     await addToProject(project.id, issue.id);
 
+    // viktig: uppdatera state lokalt också
+    existing.add(issue.id);
+
     added++;
   }
 
-  log(`Done: added ${added}`);
+  log(`Done: added ${added}, skipped ${skipped}`);
 }
 
 // ---------------------------
