@@ -1,0 +1,23 @@
+name: Sync Issues to ProjectV2
+
+on:
+  workflow_dispatch:
+  #schedule:
+    #- cron: "0 * * * *"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+
+      - run: node scripts/sync.js
+        env:
+          GH_TOKEN: ${{ secrets.ISSUE_TOKEN }}
